@@ -20,8 +20,8 @@ namespace WildSorts
 					else
 					{
 						Console.WriteLine($"{currentIndex} {array[currentIndex]} {array[currentIndex + 1]}");
-						indexes.Push(-(currentIndex + 1));
-						Console.WriteLine(-currentIndex - 1);
+						indexes.Push(currentIndex + 1);
+						Console.WriteLine(currentIndex + 1);
 						return Sort(array, currentIndex + 1);
 					}
 				}
@@ -35,7 +35,7 @@ namespace WildSorts
 					else
 					{
 						Console.WriteLine($"{currentIndex} {array[currentIndex]} {array[currentIndex + 1]}");
-						indexes.Push(currentIndex + 1);
+						indexes.Push(-(currentIndex + 1));
 						return Sort(array, currentIndex + 1);
 					}
 				}
