@@ -1,64 +1,88 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace WildSorts
 {
 	class Program
 	{
-		static Int32 Sort(Int32[] array, Int32 currentIndex)
+		class BinaryTree
 		{
-			try
+			public class Node
 			{
-				if (array[currentIndex + 1] < array[currentIndex])
+				public Int32 value;
+				public Int32 counter;
+				public Node left;
+				public Node right;
+			}
+
+			public Node Root { get; private set; }
+
+			public BinaryTree()
+			{
+
+			}
+
+			public void Insert(Int32 value, Node node)
+			{
+				if (node == null)
 				{
-					if (indexes.Peek() > 0)
+					Root = new Node();
+					Root.value = value;
+					Root.counter = 1;
+				}
+				else if (node.value == value)
+				{
+					node.counter++;
+				}
+				else if (value > node.value)
+				{
+					if (node.right == null)
 					{
-						indexes.Push(1);
-						return Sort(array, currentIndex + 1);
+						node.right = new Node();
+						node.right.value = value;
+						node.right.counter = 1;
 					}
 					else
 					{
-						Console.WriteLine($"{currentIndex} {array[currentIndex]} {array[currentIndex + 1]}");
-						indexes.Push(currentIndex + 1);
-						Console.WriteLine(currentIndex + 1);
-						return Sort(array, currentIndex + 1);
+						Insert(value, node.right);
 					}
 				}
 				else
 				{
-					if (indexes.Peek() < 0)
+					if (node.left == null)
 					{
-						indexes.Push(-1);
-						return Sort(array, currentIndex + 1);
+						node.left = new Node();
+						node.left.value = value;
+						node.left.counter = 1;
 					}
 					else
 					{
-						Console.WriteLine($"{currentIndex} {array[currentIndex]} {array[currentIndex + 1]}");
-						indexes.Push(-(currentIndex + 1));
-						return Sort(array, currentIndex + 1);
+						Insert(value, node.left);
 					}
 				}
 			}
-			catch
+
+			public List<Int32> ToArray(Node node)
 			{
-				return currentIndex;
+				if (node!= null)
+				{
+					var array = ToArray(node.left);
+					array.AddRange(new List<Int32>(node.counter) { node.value });
+					array.AddRange(ToArray(node.right));
+					return array;
+				}
+				else
+				{
+					return new List<Int32>(){ };
+				}
 			}
 		}
 
-		static Stack<Int32> indexes = new Stack<Int32>();
-
-		static Int32 steped = 0;
-	
 		static void Main(string[] args)
 		{
-			Int32[] array = new Int32[] { 5, 4, 3, 6, 7, 1, 9, 8};
-			indexes.Push(1);
-			indexes.Push(Sort(array, 1));
-			foreach (var i in indexes)
-			{
-				Console.WriteLine(i);
-			}
+			
 		}
 	}
 }
